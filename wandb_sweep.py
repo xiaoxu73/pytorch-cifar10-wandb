@@ -34,7 +34,7 @@ def seed(myseed):
 
 def train(cfg, run, mean, std, model, train_loader, dev_loader):
     # criterion = nn.CrossEntropyLoss()
-    criterion = CrossEntropyLabelSmooth()
+    criterion = CrossEntropyLabelSmooth().cuda()
 
     optimizer = optim.Adam(model.parameters(), lr=cfg['lr'], weight_decay=cfg['weight_decay'])
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=cfg['n_epochs'], eta_min=cfg['lr'] / 100)

@@ -33,7 +33,7 @@ def seed(myseed):
 
 def train(cfg, run, mean, std, model, train_loader, dev_loader):
     # criterion = nn.CrossEntropyLoss()
-    criterion = CrossEntropyLabelSmooth
+    criterion = CrossEntropyLabelSmooth().cuda()
 
     optimizer = optim.Adam(model.parameters(), lr=cfg['lr'], weight_decay=cfg['weight_decay'])
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=cfg['n_epochs'], eta_min=cfg['lr'] / 100)
@@ -182,7 +182,6 @@ def train(cfg, run, mean, std, model, train_loader, dev_loader):
             if stale > cfg['patience']:
                 print(f"No improvment {cfg['patience']} consecutive epochs, early stopping")
                 break
-
 
 def test(cfg, run, mean, std, model, test_loader):
     good_cases = wandb.Table(columns=['test_right_Image', 'GroundTruth', 'Prediction'])
