@@ -289,15 +289,16 @@ if __name__ == "__main__":
         Cutout(n_holes=1, length=16)
     ])
 
-    # 从训练集划分验证集
+    # Download CIFAR-10 dataset.
     full_train = datasets.CIFAR10(root='./CIFAR10', train=True, download=True, transform=None)  # 不指定 transform
+    test_set = datasets.CIFAR10(root='./CIFAR10', train=False, download=True, transform=test_tfm)
+    # 从训练集划分验证集
     train_idx, dev_idx = train_test_split(
         range(len(full_train)), test_size=5000, random_state=42, stratify=full_train.targets)
 
-    # 训练集，验证集，测试集
+    # 训练集，验证集
     train_set = datasets.CIFAR10(root='./CIFAR10', train=True, transform=train_tfm)
     dev_set = datasets.CIFAR10(root='./CIFAR10', train=True, transform=test_tfm)
-    test_set = datasets.CIFAR10(root='./CIFAR10', train=False, download=True, transform=test_tfm)
 
     train_set = torch.utils.data.Subset(train_set, train_idx)
     dev_set = torch.utils.data.Subset(dev_set, dev_idx)
